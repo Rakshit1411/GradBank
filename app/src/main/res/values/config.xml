@@ -22,7 +22,7 @@
 
     <!--Watson Text To Speech(TTS) service credentials-->
     <!-- REPLACE `TTS_API_KEY_HERE` with Watson Text to Speech service API Key-->
-    <string name="TTS_apikey">5A5G3fBCNNQlWzS7kfVSK4Bw7YPcDEevC2aNDiha0FIp</string>
+    <string name="TTS_apikey">IaNvOOBZEvjjVn3TDnf_yVgOZKTvLuyuPpAgr4YFUSO7</string>
 
     <!-- REPLACE `TTS_URL_HERE` with Watson Text to Speech service URL-->
     <string name="TTS_url">https://gateway-lon.watsonplatform.net/text-to-speech/api</string>

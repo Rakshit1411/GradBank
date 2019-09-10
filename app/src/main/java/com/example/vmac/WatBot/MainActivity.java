@@ -42,9 +42,13 @@ import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import static java.sql.Types.NULL;
 
 public class MainActivity extends AppCompatActivity {
 
+  private String temp = "";
   private String myREsponse;
   private RecyclerView recyclerView;
   private ChatAdapter mAdapter;
@@ -159,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
     });
 
     createServices();
-    sendMessage();
   }
 
   ;
@@ -240,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             .build();
           MessageResponse response = watsonAssistant.message(options).execute().getResult();
             Log.i(TAG, "run: "+response);
-            Log.i(TAG,response.getOutput().getIntents().get(0).getIntent().toString());
+            //Log.i(TAG,response.getOutput().getIntents().get(0).getIntent().toString()
           final Message outMessage = new Message();
           if (response != null &&
             response.getOutput() != null &&
@@ -265,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
               }
             });
           }
+          //recordMessage();
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -278,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
   private class SayTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
+
       streamPlayer.playStream(textToSpeech.synthesize(new SynthesizeOptions.Builder()
         .text(params[0])
         .voice(SynthesizeOptions.Voice.EN_US_LISAVOICE)
@@ -290,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
   //Record a message via Watson Speech to Text
   private void recordMessage() {
     if (listening != true) {
+
       capture = microphoneHelper.getInputStream(true);
       new Thread(new Runnable() {
         @Override
@@ -353,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
 
   //Watson Speech to Text Methods.
   private class MicrophoneRecognizeDelegate extends BaseRecognizeCallback {
+
     @Override
     public void onTranscription(SpeechRecognitionResults speechResults) {
       if (speechResults.getResults() != null && !speechResults.getResults().isEmpty()) {
@@ -378,7 +385,28 @@ public class MainActivity extends AppCompatActivity {
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        inputMessage.setText(text);
+        Log.i(TAG,"dsdsad"+(text.trim()==temp.trim()));
+        Log.i(TAG,text);
+        Log.i(TAG,temp);
+        if(text.trim().equals(temp.trim())){
+//          temp = text;
+//          temp = text.replaceAll("send","");
+
+//
+          try {
+            TimeUnit.SECONDS.sleep(3);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          microphoneHelper.closeInputStream();
+          listening = false;
+          sendMessage();
+          return;
+        }
+        temp = text;
+        inputMessage.setText(temp);
+
+
       }
     });
   }

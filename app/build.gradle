@@ -1,9 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 repositories {
     maven {
-        url  "https://dl.bintray.com/ibm-cloud-sdks/ibm-cloud-sdk-repo"
+        url "https://dl.bintray.com/ibm-cloud-sdks/ibm-cloud-sdk-repo"
     }
+    mavenCentral()
 }
 
 android {
@@ -38,6 +41,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -49,4 +53,10 @@ dependencies {
     implementation 'com.ibm.watson:speech-to-text:7.0.0'
     implementation 'com.ibm.watson.developer_cloud:android-sdk:0.5.0'
     testImplementation 'junit:junit:4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
+
+
 }
